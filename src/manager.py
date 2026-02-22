@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 from typing import Callable
 
 from .method import HashMethod
-from .wavelet import WaveletHash
+from .wavelet import WaveletHash, WaveletMode
 
 @dataclass
 class ImageHashManager:
@@ -176,10 +176,6 @@ class ImageHashManager:
         float
             Distance between the two hashes.
         """
-        # if hash_one.ndim == 1:
-        #     hash_one = hash_one.reshape(1, -1)
-        # if hash_two.ndim == 1:
-        #     hash_two = hash_two.reshape(1, -1)
         return cdist(hash_one, hash_two, metric="euclidean") * 10000
 
     def _measure_pairwise_by_euclidean(
@@ -200,3 +196,34 @@ class ImageHashManager:
             Distance matrix of shape (N, N).
         """
         return cdist(hash_values, hash_values, metric="euclidean") * 10000
+
+    def update_wavelet_obj(
+        self,
+        hash_size: int,
+        image_scale: int | None,
+        mode: WaveletMode = WaveletMode.Haar,
+        remove_max_haar_ll: bool = True
+        ) -> None:
+        """
+        Update the wavelet object.
+
+        Parameters
+        ----------
+        hash_size: int
+            The size of the hash.
+        image_scale: int | None
+            The scale of the image.
+        mode: WaveletMode
+            The mode of the wavelet.
+        remove_max_haar_ll: bool
+            Whether to remove the maximum Haar LL band.
+        """
+        if self.method != HashMethod.WaveletHash:
+            raise ValueError("This method does not support wavelet hash.")
+        wavelet_obj = WaveletHash(
+            hash_size=hash_size,
+            image_scale=image_scale,
+            mode=mode,
+            remove_max_haar_ll=remove_max_haar_ll
+        )
+        self.hash_obj = wavelet_obj

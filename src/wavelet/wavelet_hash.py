@@ -11,7 +11,7 @@ from .mode import WaveletMode
 @dataclass
 class WaveletHash:
     """
-    Wavelet Hash: hash_size × hash_size bits from DWT low-frequency band.
+    Wavelet Hash: hash_size * hash_size bits from DWT low-frequency band.
 
     - compute(image) -> hash (np.ndarray, shape (hash_size**2 / 8,), dtype uint8)
     - compare(hash_one, hash_two) -> Hamming distance (float)
