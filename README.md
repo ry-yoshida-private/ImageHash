@@ -1,6 +1,9 @@
 # ImageHash
 
+## Overview
+
 Compare images using perceptual hash methods. Computes hashes for a source image and positive/negative references, then reports pairwise distances and timing.
+See the [image_hash README](src/image_hash/README.md#available-methods) for method details (Pros/Cons).
 
 ## Requirements
 
@@ -13,31 +16,26 @@ Compare images using perceptual hash methods. Computes hashes for a source image
 pip install -r requirements.txt
 ```
 
-
-## Available methods
-
-| Method | Pros | Cons |
-|--------|------|------|
-| AverageHash | Fast, simple, high performance for coarse similarity | Sensitive to scaling, rotation, and lighting changes |
-| PHash | Industry standard; robust against minor edits and noise | Slightly higher CPU cost than AverageHash |
-| WaveletHash | Excellent for texture/structure; multi-scale analysis | Implementation complexity; slower than DCT-based methods |
-| ColorMomentHash | Invariant to structural changes; focuses on color distribution | Metric mismatch: uses Euclidean distance, not Hamming distance |
-
 ## Example
 
-Run from the project root:
+Load an image with OpenCV and compute its hash:
 
-```bash
-python -m src \
-    --source_image_path data/source.jpg \
-    --positive_image_path data/positive.jpg \
-    --negative_image_path data/negative.jpg \
-    --methods AverageHash WaveletHash BlockMeanHash MarrHildrethHash RadialVarianceHash PHash ColorMomentHash
+```python
+import cv2
+from image_hash import HashMethod, ImageHasher
+
+# Load image (BGR or grayscale)
+image = cv2.imread("path/to/image.jpg")
+
+# Build hasher with desired method (e.g. PHash)
+hasher = ImageHasher.build(HashMethod.PHash)
+
+# Compute hash (e.g. 8-byte ndarray)
+hash_value = hasher.compute_hash(image)
+print(hash_value)  # e.g. [123 45 67 89 ...]
+
+# As bit array (for Hamming distance)
+hash_bits = ImageHasher.to_binary(hash_value)
+print(hash_bits.shape)  # (64,) for 64-bit methods
 ```
-
-- **source_image_path** – main image to compare (default: `data/source.jpg`)
-- **positive_image_path** – reference image expected to be similar (default: `data/positive.jpg`)
-- **negative_image_path** – reference image expected to be different (default: `data/negative.jpg`)
-- **methods** – one or more hash methods to run (default: all)
-
 
