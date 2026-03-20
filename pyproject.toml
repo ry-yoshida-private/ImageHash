@@ -10,7 +10,7 @@ authors = [
 ]
 description = "Compare images using perceptual hash methods (PHash, wavelet hash, etc.)."
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -24,8 +24,8 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/ry-yoshida/ImageHashSearch"
-"Bug Tracker" = "https://github.com/ry-yoshida/ImageHashSearch/issues"
+Homepage = "https://github.com/ry-yoshida-private/ImageHash"
+"Bug Tracker" = "https://github.com/ry-yoshida-private/ImageHash/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
