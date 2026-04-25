@@ -72,7 +72,7 @@ class HashMethod(Enum):
         int: The size of the hash.
         """
         match self:
-            case self.P | self.AVERAGE | self.WAVELET:
+            case self.P | self.AVERAGE:
                 return 8
             case self.BLOCK_MEAN:
                 return 32
@@ -82,6 +82,11 @@ class HashMethod(Enum):
                 return 72
             case self.RADIAL_VARIANCE:
                 return 40
+            case self.WAVELET:
+                raise ValueError(
+                    "HashMethod.WAVELET does not have a fixed hash_size. "
+                    "Use WaveletHash.hash_size from your WaveletHash instance instead."
+                )
 
     @property
     def is_bit_convertible(self) -> bool:
