@@ -12,7 +12,7 @@ class BitwiseHasher(ImageHasher):
     ----------
     method: HashMethod
         The hash method to use.
-    hash_obj: Union[cv2.img_hash.ImgHashBase, WaveletHash]
+    hash_obj: object
         The hash object to use.
     """
     def __post_init__(self) -> None:

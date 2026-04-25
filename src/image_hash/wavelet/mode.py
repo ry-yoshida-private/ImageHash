@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class WaveletMode(Enum):
     """
     Wavelet modes.
@@ -13,6 +14,7 @@ class WaveletMode(Enum):
     Biorthogonal: Biorthogonal wavelet
     ReverseBiorthogonal: Reverse Biorthogonal wavelet
     """
+
     Haar = "haar"
     Daubechies = "db4"
     Symlet = "sym4"

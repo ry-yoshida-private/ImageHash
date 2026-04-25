@@ -12,30 +12,55 @@ class HashMethod(Enum):
 
     Attributes:
     ----------
-    P: PHash
-    AVERAGE: AverageHash
-    BLOCK_MEAN: BlockMeanHash
-    COLOR_MOMENT: ColorMomentHash
-    MARR_HILDRETH: MarrHildrethHash
-    RADIAL_VARIANCE: RadialVarianceHash
-    WAVELET: WaveletHash (original implementation)
+    P: P
+    AVERAGE: AVERAGE
+    BLOCK_MEAN: BLOCK_MEAN
+    COLOR_MOMENT: COLOR_MOMENT
+    MARR_HILDRETH: MARR_HILDRETH
+    RADIAL_VARIANCE: RADIAL_VARIANCE
+    WAVELET: WAVELET
     """
-    P = "PHash"
-    AVERAGE = "AverageHash"
-    BLOCK_MEAN = "BlockMeanHash"
-    COLOR_MOMENT = "ColorMomentHash"
-    MARR_HILDRETH = "MarrHildrethHash"
-    RADIAL_VARIANCE = "RadialVarianceHash"
-    WAVELET = "WaveletHash"
+    P = "P"
+    AVERAGE = "AVERAGE"
+    BLOCK_MEAN = "BLOCK_MEAN"
+    COLOR_MOMENT = "COLOR_MOMENT"
+    MARR_HILDRETH = "MARR_HILDRETH"
+    RADIAL_VARIANCE = "RADIAL_VARIANCE"
+    WAVELET = "WAVELET"
     # DifferenceHash = "DifferenceHash"
 
     @property
-    def obj(self) -> Union[cv2.img_hash.ImgHashBase, WaveletHash]:
+    def object(self) -> Union[cv2.img_hash.ImgHashBase, WaveletHash]:
+        """
+        Get the object of the hash method.
+
+        Returns:
+        ----------
+        Union[cv2.img_hash.ImgHashBase, WaveletHash]: The object of the hash method.
+        """
         match self:
             case self.WAVELET:
                 return WaveletHash()
             case _:
-                return getattr(cv2.img_hash, f"{self.value}_create")()
+                return getattr(cv2.img_hash, f"{self.opencv_name}_create")()
+
+    @property
+    def opencv_name(self) -> str:
+        match self:
+            case self.P:
+                return "PHash"
+            case self.AVERAGE:
+                return "AverageHash"
+            case self.BLOCK_MEAN:
+                return "BlockMeanHash"
+            case self.COLOR_MOMENT:
+                return "ColorMomentHash"
+            case self.MARR_HILDRETH:
+                return "MarrHildrethHash"
+            case self.RADIAL_VARIANCE:
+                return "RadialVarianceHash"
+            case self.WAVELET:
+                return "WaveletHash"
 
     @property
     def hash_size(self) -> int:
@@ -57,8 +82,6 @@ class HashMethod(Enum):
                 return 72
             case self.RADIAL_VARIANCE:
                 return 40
-            case _:
-                raise ValueError(f"Invalid hash method: {self}")
 
     @property
     def is_bit_convertible(self) -> bool:

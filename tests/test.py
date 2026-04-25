@@ -3,12 +3,7 @@ Tests for image_hash: hash computation and cross distance matrix per method.
 - Pytest: uses fixtures from conftest (dummy_images, real_images) and _helpers (build_hasher).
 - Script: run with optional CLI for ad-hoc checks (e.g. --data-dir, --methods, --list-methods).
 """
-import sys
 from pathlib import Path
-
-_root = Path(__file__).resolve().parent.parent
-if str(_root) not in sys.path:
-    sys.path.insert(0, str(_root))
 
 import argparse
 import time
@@ -19,8 +14,8 @@ try:
 except ImportError:
     pytest = None  # script-only run without pytest
 
-from src.image_hash.method import HashMethod
-from src.image_hash.hasher import ImageHasher
+from image_hash.method import HashMethod
+from image_hash.hasher import ImageHasher
 
 from _helpers import build_hasher, load_images_from_paths
 
@@ -34,7 +29,7 @@ def run_cross_distance(
     Compute hashes for all images and return the cross distance matrix.
     Handles bit-convertible vs vector methods internally.
     """
-    hashes = {name: hasher.compute_hash(img) for name, img in images.items()}
+    hashes = {name: hasher.compute(img) for name, img in images.items()}
     raw = np.array([h for h in hashes.values()])
     if method.is_bit_convertible:
         binary = hasher.to_binary(raw)
@@ -105,7 +100,7 @@ def _parse_args():
 def _resolve_methods(names: str) -> list[HashMethod]:
     if names.strip().lower() == "all":
         return list(HashMethod)
-    chosen = []
+    chosen: list[HashMethod] = []
     for s in names.split(","):
         s = s.strip()
         try:
@@ -136,10 +131,11 @@ def main() -> None:
         source_label = str(data_dir)
     else:
         h, w = 64, 64
+        rng = np.random.default_rng(114514)
         images = {
-            "source": np.random.randint(0, 256, (h, w, 3), dtype=np.uint8),
-            "positive": np.random.randint(0, 256, (h, w, 3), dtype=np.uint8),
-            "negative": np.random.randint(0, 256, (h, w, 3), dtype=np.uint8),
+            "source": rng.integers(0, 256, (h, w, 3), dtype=np.uint8),
+            "positive": rng.integers(0, 256, (h, w, 3), dtype=np.uint8),
+            "negative": rng.integers(0, 256, (h, w, 3), dtype=np.uint8),
         }
         source_label = "dummy"
 

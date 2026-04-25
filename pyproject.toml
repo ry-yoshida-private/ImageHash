@@ -10,9 +10,10 @@ authors = [
 ]
 description = "Compare images using perceptual hash methods (PHash, wavelet hash, etc.)."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 classifiers = [
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Typing :: Typed",
@@ -33,3 +34,6 @@ package-data = { "image_hash" = ["py.typed"] }
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+python_files = ["test.py", "test_*.py", "*_test.py"]

@@ -2,18 +2,10 @@
 Pytest fixtures for image_hash tests.
 Provides hasher factory, image sources (dummy / from paths), and config.
 """
-import sys
 from pathlib import Path
 
-_root = Path(__file__).resolve().parent.parent
-if str(_root) not in sys.path:
-    sys.path.insert(0, str(_root))
-
-import cv2
 import numpy as np
 import pytest
-
-from src.image_hash.method import HashMethod
 
 from _helpers import build_hasher, load_images_from_paths
 
@@ -51,10 +43,11 @@ def real_images_available(default_image_paths: dict[str, Path]) -> bool:
 def dummy_images() -> dict[str, np.ndarray]:
     """In-memory random BGR images (no file I/O)."""
     h, w = 64, 64
+    rng = np.random.default_rng(114514)
     return {
-        "source": np.random.randint(0, 256, (h, w, 3), dtype=np.uint8),
-        "positive": np.random.randint(0, 256, (h, w, 3), dtype=np.uint8),
-        "negative": np.random.randint(0, 256, (h, w, 3), dtype=np.uint8),
+        "source": rng.integers(0, 256, (h, w, 3), dtype=np.uint8),
+        "positive": rng.integers(0, 256, (h, w, 3), dtype=np.uint8),
+        "negative": rng.integers(0, 256, (h, w, 3), dtype=np.uint8),
     }
 
 
@@ -65,7 +58,7 @@ def real_images(default_image_paths: dict[str, Path], real_images_available: boo
         pytest.skip(
             "Data images not found (data/source.jpg, data/positive.jpg, data/negative.jpg)"
         )
-    return load_images_from_paths({k: str(v) for k, v in default_image_paths.items()})
+    return load_images_from_paths(default_image_paths)
 
 
 # --- Hasher ---

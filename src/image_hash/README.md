@@ -34,4 +34,4 @@ CLI and core logic for image perceptual hashing.
 | [method.py](method.py) | `HashMethod` enum and method metadata |
 | [hasher.py](hasher.py) | Base class and factory for image hashing |
 | [hashers/](hashers/) | Bit-based (Hamming) and vector-based (Euclidean) hasher implementations. See [hashers/README.md](hashers/README.md) |
-| [wavelet/](wavelet/) | Wavelet-based perceptual hash |
+| [wavelet/](wavelet/) | Wavelet hash object implementation (`WaveletHash`, `WaveletMode`) |

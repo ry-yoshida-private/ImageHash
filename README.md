@@ -7,7 +7,7 @@ See the [image_hash README](src/image_hash/README.md#available-methods) for meth
 
 ## Requirements
 
-- Python 3.x
+- Python 3.12+
 - numpy, opencv-contrib-python, scipy
 
 ## Setup
@@ -31,7 +31,7 @@ image = cv2.imread("path/to/image.jpg")
 hasher = ImageHasher.build(HashMethod.P)
 
 # Compute hash (e.g. 8-byte ndarray)
-hash_value = hasher.compute_hash(image)
+hash_value = hasher.compute(image)
 print(hash_value)  # e.g. [123 45 67 89 ...]
 
 # As bit array (for Hamming distance)

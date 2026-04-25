@@ -3,8 +3,8 @@ import cv2
 import warnings
 import numpy as np
 from abc import ABC, abstractmethod
-from typing import Union
 from dataclasses import dataclass
+from typing import Union
 
 from .method import HashMethod
 from .wavelet import WaveletHash
@@ -19,7 +19,7 @@ class ImageHasher(ABC):
     method: HashMethod
     hash_obj: Union[cv2.img_hash.ImgHashBase, WaveletHash]
 
-    def compute_hash(
+    def compute(
         self, 
         image: np.ndarray
         ) -> np.ndarray:
@@ -125,7 +125,6 @@ class ImageHasher(ABC):
             The hash method to use.
         wavelet_obj: WaveletHash | None
             The wavelet object to use.
-
         Returns
         -------
         ImageHasher
@@ -143,7 +142,7 @@ class ImageHasher(ABC):
                 warnings.warn("Wavelet object is not used for non-WAVELET methods.")
 
         if method.is_bit_convertible:
-            return BitwiseHasher(method=method, hash_obj=method.obj)
+            return BitwiseHasher(method=method, hash_obj=method.object)
         else:
             from .hashers.vector import VectorHasher
-            return VectorHasher(method=method, hash_obj=method.obj)
+            return VectorHasher(method=method, hash_obj=method.object)
