@@ -133,14 +133,14 @@ class ImageHasher(ABC):
             VectorHasher otherwise (Euclidean distance).
         """
         from .hashers.bitwise import BitwiseHasher
-        if method == HashMethod.WaveletHash:
+        if method == HashMethod.WAVELET:
             if wavelet_obj is None:
                 wavelet_obj = WaveletHash()
                 warnings.warn("Wavelet object is not provided, using default values.")
             return BitwiseHasher(method=method, hash_obj=wavelet_obj)
         else:
             if wavelet_obj is not None:
-                warnings.warn("Wavelet object is not used for non-WaveletHash methods.")
+                warnings.warn("Wavelet object is not used for non-WAVELET methods.")
 
         if method.is_bit_convertible:
             return BitwiseHasher(method=method, hash_obj=method.obj)

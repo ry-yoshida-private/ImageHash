@@ -12,27 +12,27 @@ class HashMethod(Enum):
 
     Attributes:
     ----------
-    PHash: PHash
-    AverageHash: AverageHash
-    BlockMeanHash: BlockMeanHash
-    ColorMomentHash: ColorMomentHash
-    MarrHildrethHash: MarrHildrethHash
-    RadialVarianceHash: RadialVarianceHash
-    WaveletHash: WaveletHash (original implementation)
+    P: PHash
+    AVERAGE: AverageHash
+    BLOCK_MEAN: BlockMeanHash
+    COLOR_MOMENT: ColorMomentHash
+    MARR_HILDRETH: MarrHildrethHash
+    RADIAL_VARIANCE: RadialVarianceHash
+    WAVELET: WaveletHash (original implementation)
     """
-    PHash = "PHash"
-    AverageHash = "AverageHash"
-    BlockMeanHash = "BlockMeanHash"
-    ColorMomentHash = "ColorMomentHash"
-    MarrHildrethHash = "MarrHildrethHash"
-    RadialVarianceHash = "RadialVarianceHash"
-    WaveletHash = "WaveletHash"
+    P = "PHash"
+    AVERAGE = "AverageHash"
+    BLOCK_MEAN = "BlockMeanHash"
+    COLOR_MOMENT = "ColorMomentHash"
+    MARR_HILDRETH = "MarrHildrethHash"
+    RADIAL_VARIANCE = "RadialVarianceHash"
+    WAVELET = "WaveletHash"
     # DifferenceHash = "DifferenceHash"
 
     @property
     def obj(self) -> Union[cv2.img_hash.ImgHashBase, WaveletHash]:
         match self:
-            case self.WaveletHash:
+            case self.WAVELET:
                 return WaveletHash()
             case _:
                 return getattr(cv2.img_hash, f"{self.value}_create")()
@@ -47,15 +47,15 @@ class HashMethod(Enum):
         int: The size of the hash.
         """
         match self:
-            case self.PHash | self.AverageHash | self.WaveletHash:
+            case self.P | self.AVERAGE | self.WAVELET:
                 return 8
-            case self.BlockMeanHash:
+            case self.BLOCK_MEAN:
                 return 32
-            case self.ColorMomentHash:
+            case self.COLOR_MOMENT:
                 return 42
-            case self.MarrHildrethHash:
+            case self.MARR_HILDRETH:
                 return 72
-            case self.RadialVarianceHash:
+            case self.RADIAL_VARIANCE:
                 return 40
             case _:
                 raise ValueError(f"Invalid hash method: {self}")
@@ -70,7 +70,7 @@ class HashMethod(Enum):
         bool: Whether the hash is binary.
         """
         match self:
-            case self.ColorMomentHash:
+            case self.COLOR_MOMENT:
                 return False
             case _:
                 return True

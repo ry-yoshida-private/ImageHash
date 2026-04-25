@@ -28,7 +28,7 @@ from image_hash import HashMethod, ImageHasher
 image = cv2.imread("path/to/image.jpg")
 
 # Build hasher with desired method (e.g. PHash)
-hasher = ImageHasher.build(HashMethod.PHash)
+hasher = ImageHasher.build(HashMethod.P)
 
 # Compute hash (e.g. 8-byte ndarray)
 hash_value = hasher.compute_hash(image)

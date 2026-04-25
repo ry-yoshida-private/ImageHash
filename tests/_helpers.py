@@ -18,7 +18,7 @@ from src.image_hash.hasher import ImageHasher
 
 def build_hasher(method: HashMethod) -> ImageHasher:
     """Build ImageHasher for the given method (single place for WaveletHash handling)."""
-    if method == HashMethod.WaveletHash:
+    if method == HashMethod.WAVELET:
         return ImageHasher.build(method=method, wavelet_obj=method.obj)
     return ImageHasher.build(method=method)
 
