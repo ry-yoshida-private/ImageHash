@@ -15,6 +15,7 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+    "Typing :: Typed",
 ]
 dependencies = [
     "numpy",
@@ -26,6 +27,9 @@ dependencies = [
 [project.urls]
 Homepage = "https://github.com/ry-yoshida-private/ImageHash"
 "Bug Tracker" = "https://github.com/ry-yoshida-private/ImageHash/issues"
+
+[tool.setuptools]
+package-data = { "image_hash" = ["py.typed"] }
 
 [tool.setuptools.packages.find]
 where = ["src"]
